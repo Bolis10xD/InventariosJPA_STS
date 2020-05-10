@@ -101,6 +101,15 @@ public class ProductoServiceImpl implements ProductoService {
         return produtosDTO;
     }
 
+    @Override
+    public ProductoDTO findByIdWithImage(Long ID) {
+        Producto producto = productoRepository.findProductoIdFetchImagen(ID);
+         return trasnformToDTO(producto);
+
+    }
+
+
+
     /**
      * Metodo de utilidad para pasar los valores de una lista de objetos del tipo
      * Producto a otra lista del tipo ProductoDTO
@@ -115,5 +124,10 @@ public class ProductoServiceImpl implements ProductoService {
             productoDTOS.add(productoDTO);
         }
         return productoDTOS;
+    }
+
+    private ProductoDTO trasnformToDTO(Producto producto) {
+        ProductoDTO productoDTO = modelMapper.map(producto, ProductoDTO.class);
+        return productoDTO;
     }
 }
