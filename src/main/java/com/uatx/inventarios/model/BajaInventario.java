@@ -1,17 +1,16 @@
 package com.uatx.inventarios.model;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "baja_inventario")
+@SequenceGenerator(name="baja_seq")
 public class BajaInventario {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "baja_seq")
     private Long id;
 
     @Column(name = "fecha", length = 50)
@@ -20,7 +19,8 @@ public class BajaInventario {
     @Column(name = "cantidad", length = 50)
     private Double cantidad;
 
-    @Column(name = "producto", length = 50)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_imagen")
     private Producto producto;
 
 
