@@ -9,9 +9,9 @@ import java.util.List;
 public interface InventarioService {
 
     Long storeAltaInventario(AltaInventarioDTO altaInventarioDTO);
-    Long storeBajaInventario(BajaInventarioDTO bajaInventarioDTO, Long productoID);
-    List<ProductoDTO> findAltasByProducto(Long productoID);
-    List<ProductoDTO> findBajasByProducto(Long productoID);
+    Long storeBajaInventario(BajaInventarioDTO bajaInventarioDTO);
+    List <AltaInventarioDTO> findAltasByProducto(Long productoID);
+    List<AltaInventarioDTO> findBajasByProducto(Long productoID);
 
 
 }
