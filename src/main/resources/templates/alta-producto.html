@@ -23,7 +23,7 @@
 <div class="container py-4">
 
     <div class="card bg-light">
-        <div class="card-header" th:text="${titulo}"></div>
+        <div class="card-header list-group-item-success" th:text="${titulo}"></div>
         <div class="card-body">
 
             <div id="imagenPro"></div>
@@ -56,7 +56,7 @@
 
                 <div class="input-group mb-3 list-group-item-success">
                     <form>
-                    <input id="piezas" type="text" class="form-control" placeholder="Piezas a ingresar:" aria-label="Piezas a ingresar:" aria-describedby="basic-addon2">
+                    <input id="piezas" type="number" class="form-control" placeholder="Piezas a ingresar:" aria-label="Piezas a ingresar:" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button id="btn-actualizar" class="btn btn-success" type="button">Actualizar</button>
                     </div>
@@ -64,10 +64,13 @@
                 </div>
 
             </ul>
-
-
-
         </div>
+
+            <div class="card-header list-group-item-success" th:text="${Altain}"></div>
+            <div class="card-body">
+
+            <button id="btn-info" class="btn btn-outline-warning" type="button">Consultar</button>
+            </div>
     </div>
 
 </div>
