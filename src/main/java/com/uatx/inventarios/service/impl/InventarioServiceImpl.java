@@ -5,9 +5,11 @@ import com.uatx.inventarios.dto.BajaInventarioDTO;
 import com.uatx.inventarios.dto.ProductoDTO;
 import com.uatx.inventarios.exceptions.BusinessException;
 import com.uatx.inventarios.model.AltaInventario;
+import com.uatx.inventarios.model.BajaInventario;
 import com.uatx.inventarios.model.Imagen;
 import com.uatx.inventarios.model.Producto;
 import com.uatx.inventarios.repository.AltaInventarioRepository;
+import com.uatx.inventarios.repository.BajaInventarioRepository;
 import com.uatx.inventarios.repository.ProductoRepository;
 import com.uatx.inventarios.service.InventarioService;
 import com.uatx.inventarios.service.ProductoService;
@@ -16,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +28,9 @@ public class InventarioServiceImpl implements InventarioService {
 
     @Autowired
     private AltaInventarioRepository altaInventarioRepository;
+
+    @Autowired
+    private BajaInventarioRepository bajaInventarioRepository;
 
     @Autowired
     private ProductoRepository productoRepository;
@@ -52,17 +59,50 @@ public class InventarioServiceImpl implements InventarioService {
     }
 
     @Override
-    public Long storeBajaInventario(BajaInventarioDTO bajaInventarioDTO, Long productoID) {
-        return null;
+    @Transactional
+    public Long storeBajaInventario(BajaInventarioDTO bajaInventarioDTO) {
+        BajaInventario bajaInventario = modelMapper.map(bajaInventarioDTO, BajaInventario.class);
+        bajaInventario.setCantidad(bajaInventarioDTO.getCantidad());
+        bajaInventario.setFecha(new Date());
+
+
+
+        Producto producto = modelMapper.map(bajaInventarioDTO.getProductoDTO(),Producto.class);
+        producto = productoRepository.findProductoIdFetchImagen(bajaInventarioDTO.getProductoDTO().getId());
+        //System.out.println(producto.getId());
+        bajaInventario.setProducto(productoRepository.findProductoIdFetchImagen(producto.getId()));
+        producto.setStock(producto.getStock()-bajaInventario.getCantidad());
+        //System.out.println(bajaInventario.getProducto());
+        bajaInventarioRepository.save(bajaInventario);
+        return bajaInventario.getId();
+    }
+
+
+    @Override
+    public List<AltaInventarioDTO> findAltasByProducto(Long productoID) {
+
+        List<AltaInventario> altaInventario = altaInventarioRepository.findAltaIdFetchProducto(productoID);
+        List<AltaInventarioDTO> altaInventarioDTOS = trasnformToListDTO(altaInventario);
+        System.out.println();
+
+        return altaInventarioDTOS;
     }
 
     @Override
-    public List<ProductoDTO> findAltasByProducto(Long productoID) {
+    public List<AltaInventarioDTO> findBajasByProducto(Long productoID) {
         return null;
     }
 
-    @Override
-    public List<ProductoDTO> findBajasByProducto(Long productoID) {
-        return null;
+
+    private List<AltaInventarioDTO> trasnformToListDTO(List<AltaInventario> altaInventarios) {
+        List<AltaInventarioDTO> altaInventariosDTOs = new ArrayList<>();
+        for (AltaInventario altaInventario : altaInventarios) {
+            AltaInventarioDTO altaInventarioDTO = modelMapper.map(altaInventario, AltaInventarioDTO.class);
+            altaInventariosDTOs.add(altaInventarioDTO);
+        }
+        return altaInventariosDTOs;
     }
-}
+
+
+
+    }
