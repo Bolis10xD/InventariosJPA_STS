@@ -20,7 +20,9 @@ function printProductos() {
             });
 
             appendColIconContent(fila,icons.Baja,producto, function (producto) {
-
+                $.get('/productos/baja/'+ producto.id, function () {
+                    window.location.href='/productos/baja/'+ producto.id;
+                });
             });
 
             appendColImgContent(fila, producto.imagen);
