@@ -1,6 +1,7 @@
 package com.uatx.inventarios.controller;
 
 import com.uatx.inventarios.dto.AltaInventarioDTO;
+import com.uatx.inventarios.dto.BajaInventarioDTO;
 import com.uatx.inventarios.dto.ImagenDTO;
 import com.uatx.inventarios.dto.ProductoDTO;
 import com.uatx.inventarios.model.Producto;
@@ -24,10 +25,17 @@ public class ProductosController {
     @Autowired
     private ProductoService productoService;
 
+
     @PostMapping("/realizarAlta")
     @ResponseBody
     public Long realizarAlta(@RequestBody AltaInventarioDTO altaInventarioDTO) {
         return inventarioService.storeAltaInventario(altaInventarioDTO);
+    }
+
+    @PostMapping("/realizarBaja")
+    @ResponseBody
+    public Long realizarBaja(@RequestBody BajaInventarioDTO bajaInventarioDTO) {
+        return inventarioService.storeBajaInventario(bajaInventarioDTO);
     }
 
     @PostMapping("/guardar")
@@ -54,8 +62,15 @@ public class ProductosController {
         return productoService.findByIdWithImage(id);
     }
 
+
+    @GetMapping("/buscarAltasbyId/{id}")
+    @ResponseBody
+    public List<AltaInventarioDTO> buscarAltasById(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash){
+        return inventarioService.findAltasByProducto(id);
+    };
+
     @GetMapping("/alta/{id}")
-    public String findById(@PathVariable(value = "id") String id, Map<String, Object> model, RedirectAttributes flash){
+    public String altaById(@PathVariable(value = "id") String id, Map<String, Object> model, RedirectAttributes flash){
         ProductoDTO productoDTO = productoService.findByIdWithImage(Long.parseLong(id));
         ImagenDTO imagenDTO = productoDTO.getImagen();
 
@@ -70,9 +85,30 @@ public class ProductosController {
         model.put("producto", productoDTO);
         model.put("base64",imagenDTO.getDataBase64());
         model.put("type",imagenDTO.getMimeType());
+        model.put("Altain","Detalle de altas del producto");
         model.put("titulo", "Detalle del Producto: " + productoDTO.getNombre());
         return "alta-producto";
     }
+
+    @GetMapping("/baja/{id}")
+    public String bajaById(@PathVariable(value = "id") String id, Map<String, Object> model, RedirectAttributes flash){
+        ProductoDTO productoDTO = productoService.findByIdWithImage(Long.parseLong(id));
+        ImagenDTO imagenDTO = productoDTO.getImagen();
+
+        if (productoDTO == null) {
+            flash.addFlashAttribute("error", "El Producto no existe en la base de datos");
+            return "redirect:/consulta-productos";
+        }
+
+        model.put("producto", productoDTO);
+        model.put("base64",imagenDTO.getDataBase64());
+        model.put("type",imagenDTO.getMimeType());
+        model.put("Bajain","Detalle de bajas del producto");
+        model.put("titulo", "Detalle del Producto: " + productoDTO.getNombre());
+        return "baja-producto";
+    }
+
+
 
 
     @GetMapping("/find/by-name")
