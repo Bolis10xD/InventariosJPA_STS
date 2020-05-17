@@ -13,11 +13,18 @@ $(document).ready(function () {
 
     $("#imagenPro").append('<img class="img-thumbnail rounded float-left" width="100px" src="data:' + tipo + ';base64,' + base64 + '">');
 
+    $('btn-info').on('click',function () {
+
+
+
+    });
+
+
     $('#btn-actualizar').on('click', function () {
        altaInventarioDto = {};
         altaInventarioDto.cantidad = $("#piezas").val();
         if (altaInventarioDto.cantidad == null || altaInventarioDto.cantidad == "" || altaInventarioDto.cantidad <= 0){
-            console.log("Ingrese una cantidad valida")
+            alert("Ingrese una cantidad valida");
         }else {
             altaInventarioDto.productoDTO = {}
                 altaInventarioDto.productoDTO.id =  parseInt($("#id_producto").text());
@@ -32,6 +39,7 @@ $(document).ready(function () {
                     console.log("Alta guardada ", id);
                     $('#alert').show(500);
                     setTimeout(function () {
+                        alert('Stock actualizado')
                         $('#alert').hide(500);
                         window.location.href = "/productos/page/productos";
                     }, 2000)
