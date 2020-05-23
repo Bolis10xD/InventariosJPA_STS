@@ -11,6 +11,13 @@ $(document).ready(function () {
 
     $("#imagenPro").append('<img class="img-thumbnail rounded float-left" width="100px" src="data:' + tipo + ';base64,' + base64 + '">');
 
+    $('#btn-info').on('click',function () {
+
+
+        window.location.href=("/productos/findBajasById/"+ parseInt($("#id_producto").text()));
+
+    });
+
     $('#btn-actualizar').on('click', function () {
         bajaInventarioDto = {};
         bajaInventarioDto.cantidad = $("#piezas").val();
@@ -19,9 +26,9 @@ $(document).ready(function () {
         }else if (bajaInventarioDto.cantidad > parseFloat($("#piezasStock").text())){
             alert("La cantidad de piezas ingresadas es mayor al numero actual del stock del producto");
         } else {
-            bajaInventarioDto.productoDTO = {}
-            bajaInventarioDto.productoDTO.id =  parseInt($("#id_producto").text());
-
+            bajaInventarioDto.producto = {}
+            bajaInventarioDto.producto.id =  parseInt($("#id_producto").text());
+            console.log(bajaInventarioDto);
             $.ajax({
                 'type': 'POST',
                 'url': '/productos/realizarBaja',
@@ -39,7 +46,7 @@ $(document).ready(function () {
                 },
                 'error': function (err) {
                     console.log(err);
-                    alert('Ocurrio algun error al guardar el producto')
+                    alert(err);
                 }
             });
 
