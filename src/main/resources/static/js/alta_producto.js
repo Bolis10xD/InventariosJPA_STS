@@ -13,9 +13,10 @@ $(document).ready(function () {
 
     $("#imagenPro").append('<img class="img-thumbnail rounded float-left" width="100px" src="data:' + tipo + ';base64,' + base64 + '">');
 
-    $('btn-info').on('click',function () {
+    $('#btn-info').on('click',function () {
 
 
+        window.location.href=("/productos/findAltasById/"+ parseInt($("#id_producto").text()));
 
     });
 
@@ -26,9 +27,10 @@ $(document).ready(function () {
         if (altaInventarioDto.cantidad == null || altaInventarioDto.cantidad == "" || altaInventarioDto.cantidad <= 0){
             alert("Ingrese una cantidad valida");
         }else {
-            altaInventarioDto.productoDTO = {}
-                altaInventarioDto.productoDTO.id =  parseInt($("#id_producto").text());
+            altaInventarioDto.producto = {}
+                altaInventarioDto.producto.id =  parseInt($("#id_producto").text());
 
+            console.log(altaInventarioDto);
             $.ajax({
                 'type': 'POST',
                 'url': '/productos/realizarAlta',
@@ -46,7 +48,7 @@ $(document).ready(function () {
                 },
                 'error': function (err) {
                     console.log(err);
-                    alert('Ocurrio algun error al guardar el producto')
+                    alert(err)
                 }
             });
 
