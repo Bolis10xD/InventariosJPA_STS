@@ -1,0 +1,67 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/libs/bootstrap-4.4.1/css/bootstrap.min.css">
+    <script src="/libs/jquery/jquery-3.4.1.min.js"></script>
+    <script src="/libs/popper/popper.min.js"></script>
+    <script src="/libs/bootstrap-4.4.1/js/bootstrap.bundle.in.js"></script>
+
+    <script src="/js/editar-producto.js"></script>
+    <title th:text="${productoDTO.nombre}"></title>
+</head>
+<body>
+
+<p id="id" th:text="${productoDTO.id}"></p>
+<p id="imagenID" th:text="${productoDTO.imagen.id}"></p>
+<p id="imagenNombre" th:text="${productoDTO.imagen.nombre}"></p>
+<p id="imagenBase" th:text="${productoDTO.imagen.dataBase64}"></p>
+<p id="imagenType" th:text="${productoDTO.imagen.mimeType}"></p>
+
+<div class="container">
+    <br>
+    <br>
+    <div class="row ">
+        <div class="col-12 justify-content-center align-middle">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h2 th:text="${productoDTO.nombre}"></h2>
+
+                    <form>
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" aria-describedby="Nombre" th:value="${productoDTO.nombre}">
+                        </div>
+                        <div class="form-group">
+                            <label for="precio">Precio</label>
+                            <input type="text" class="form-control" id="precio" th:value="${productoDTO.precio}">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="imagenDesc">Subir</span>
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="imagen" aria-describedby="imagenDesc">
+                                <label class="custom-file-label" for="imagen">Selecciona una imagen</label>
+                            </div>
+                        </div>
+                        <div id="img-preview"></div>
+                        <div class="container" style="width:100%;text-align: right">
+                        <button type="button" id="guardar-btn" class="btn btn-primary btn-lg">Guardar</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-success align-self-end" id="alert">
+       Producto guardado exitosamente
+    </div>
+</div>
+</body>
+</html>
