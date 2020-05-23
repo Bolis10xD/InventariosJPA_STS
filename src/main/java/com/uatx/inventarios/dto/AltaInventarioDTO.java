@@ -9,7 +9,7 @@ public class AltaInventarioDTO {
     private Long id;
     private Date fecha;
     private Double cantidad;
-    private ProductoDTO productoDTO;
+    private ProductoDTO producto;
 
     public Long getId() {
         return id;
@@ -35,11 +35,11 @@ public class AltaInventarioDTO {
         this.cantidad = cantidad;
     }
 
-    public ProductoDTO getProductoDTO() {
-        return productoDTO;
+    public ProductoDTO getProducto() {
+        return producto;
     }
 
-    public void setProductoDTO(ProductoDTO productoDTO) {
-        this.productoDTO = productoDTO;
+    public void setProducto(ProductoDTO producto) {
+        this.producto = producto;
     }
 }
