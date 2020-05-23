@@ -11,7 +11,7 @@ public interface InventarioService {
     Long storeAltaInventario(AltaInventarioDTO altaInventarioDTO);
     Long storeBajaInventario(BajaInventarioDTO bajaInventarioDTO);
     List <AltaInventarioDTO> findAltasByProducto(Long productoID);
-    List<AltaInventarioDTO> findBajasByProducto(Long productoID);
+    List<BajaInventarioDTO> findBajasByProducto(Long productoID);
 
 
 }
