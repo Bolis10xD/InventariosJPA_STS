@@ -11,9 +11,49 @@
     <script src="/libs/popper/popper.min.js"></script>
     <script src="/libs/bootstrap-4.4.1/js/bootstrap.bundle.in.js"></script>
 
-    <title th:text="${titulo}"></title>
+    <title></title>
 </head>
 <body>
+<H1 class="list-group-item list-group-item-primary text-center ">Detalle de altas</H1>
+<div class="container py-4">
 
+    <div class="card bg-light">
+        <div class="card-header list-group-item-success" ></div>
+        <div class="card-body">
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Cantidad</th>
+                    <th>Producto</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="alta: ${DTO}">
+                    <td th:text="${alta.id}"></td>
+                    <td th:text="${alta.fecha}"></td>
+                    <td th:text="'+'+${alta.cantidad}"></td>
+                    <td th:text="${alta.producto.nombre}"></td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+    <p id="id_producto" th:text="${id}"></p>
+
+    <button id="btn-ra" class="btn btn-success align-content-lg-center">Regresar</button>
+</div>
+
+
+
+
+
+
+
+<script src="/js/regresar.js"></script>
 </body>
 </html>
