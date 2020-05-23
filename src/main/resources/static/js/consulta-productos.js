@@ -27,7 +27,7 @@ function printProductos() {
 
             appendColImgContent(fila, producto.imagen);
             appendColIconContent(fila, icons.edit, producto, function (producto) {
-                console.log(producto);
+                 window.location.href='/productos/edit/'+producto.id;
             });
 
             appendColIconContent(fila, icons.delete, producto, function (producto) {
