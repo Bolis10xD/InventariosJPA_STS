@@ -47,10 +47,8 @@ public class InventarioServiceImpl implements InventarioService {
         altaInventario.setFecha(new Date());
 
 
+        Producto producto = productoRepository.findProductoIdFetchImagen(altaInventarioDTO.getProducto().getId());
 
-        Producto producto = modelMapper.map(altaInventarioDTO.getProductoDTO(),Producto.class);
-        producto = productoRepository.findProductoIdFetchImagen(altaInventarioDTO.getProductoDTO().getId());
-        //System.out.println(producto.getId());
         altaInventario.setProducto(productoRepository.findProductoIdFetchImagen(producto.getId()));
         producto.setStock(altaInventario.getCantidad()+producto.getStock());
         //System.out.println(altaInventario.getProducto());
@@ -67,9 +65,8 @@ public class InventarioServiceImpl implements InventarioService {
 
 
 
-        Producto producto = modelMapper.map(bajaInventarioDTO.getProductoDTO(),Producto.class);
-        producto = productoRepository.findProductoIdFetchImagen(bajaInventarioDTO.getProductoDTO().getId());
-        //System.out.println(producto.getId());
+        Producto producto = productoRepository.findProductoIdFetchImagen(bajaInventarioDTO.getProducto().getId());
+
         bajaInventario.setProducto(productoRepository.findProductoIdFetchImagen(producto.getId()));
         producto.setStock(producto.getStock()-bajaInventario.getCantidad());
         //System.out.println(bajaInventario.getProducto());
@@ -89,8 +86,14 @@ public class InventarioServiceImpl implements InventarioService {
     }
 
     @Override
-    public List<AltaInventarioDTO> findBajasByProducto(Long productoID) {
-        return null;
+    public List<BajaInventarioDTO> findBajasByProducto(Long productoID) {
+
+        List<BajaInventario> bajaInventario = bajaInventarioRepository.findBajaIdFetchProducto(productoID);
+        List<BajaInventarioDTO> bajaInventarioDTOS = trasnformToListDTO1(bajaInventario);
+        System.out.println();
+
+        return bajaInventarioDTOS;
+
     }
 
 
@@ -101,6 +104,15 @@ public class InventarioServiceImpl implements InventarioService {
             altaInventariosDTOs.add(altaInventarioDTO);
         }
         return altaInventariosDTOs;
+    }
+
+    private List<BajaInventarioDTO> trasnformToListDTO1(List<BajaInventario> bajaInventarios) {
+        List<BajaInventarioDTO> bajaInventariosDTOs = new ArrayList<>();
+        for (BajaInventario bajaInventario : bajaInventarios) {
+            BajaInventarioDTO bajaInventarioDTO = modelMapper.map(bajaInventario, BajaInventarioDTO.class);
+            bajaInventariosDTOs.add(bajaInventarioDTO);
+        }
+        return bajaInventariosDTOs;
     }
 
 
