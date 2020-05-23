@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head >
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/libs/bootstrap-4.4.1/css/bootstrap.min.css">
+    <script src="/libs/jquery/jquery-3.4.1.min.js"></script>
+    <script src="/libs/popper/popper.min.js"></script>
+    <script src="/libs/bootstrap-4.4.1/js/bootstrap.bundle.in.js"></script>
+
+    <title></title>
+</head>
+<body>
+<H1 class="list-group-item list-group-item-danger text-center ">Detalle de bajas</H1>
+<div class="container py-4">
+
+    <div class="card bg-light">
+        <div class="card-header list-group-item-warning" ></div>
+        <div class="card-body">
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Cantidad</th>
+                    <th>Producto</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="baja: ${DTO}">
+                    <td th:text="${baja.id}"></td>
+                    <td th:text="${baja.fecha}"></td>
+                    <td th:text="'-'+${baja.cantidad}"></td>
+                    <td th:text="${baja.producto.nombre}"></td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+    <p id="id_producto" th:text="${id}"></p>
+
+    <button id="btn-r" class="btn btn-success align-content-lg-center">Regresar</button>
+</div>
+
+
+
+
+
+
+
+<script src="/js/regresar.js"></script>
+
+</body>
+</html>
