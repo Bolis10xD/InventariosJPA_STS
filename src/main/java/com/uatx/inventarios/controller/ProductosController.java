@@ -5,6 +5,7 @@ import com.uatx.inventarios.dto.BajaInventarioDTO;
 import com.uatx.inventarios.dto.ImagenDTO;
 import com.uatx.inventarios.dto.ProductoDTO;
 import com.uatx.inventarios.model.Producto;
+import com.uatx.inventarios.repository.ProductoRepository;
 import com.uatx.inventarios.service.InventarioService;
 import com.uatx.inventarios.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ import java.util.Map;
 @Controller
 @RequestMapping("/productos")
 public class ProductosController {
+
+    @Autowired
+    private ProductoRepository productoRepository;
 
     @Autowired
     private InventarioService inventarioService;
@@ -36,6 +40,29 @@ public class ProductosController {
     @ResponseBody
     public Long realizarBaja(@RequestBody BajaInventarioDTO bajaInventarioDTO) {
         return inventarioService.storeBajaInventario(bajaInventarioDTO);
+    }
+
+    @GetMapping("/findBajasById/{id}")
+    public String infoBaja(@PathVariable(value = "id") String id, Map<String, Object> model, RedirectAttributes flash){
+
+        List<BajaInventarioDTO> bajaInventarioDTOS = inventarioService.findBajasByProducto(Long.parseLong(id));
+
+            model.put("DTO",bajaInventarioDTOS);
+            model.put("id-btn",id);
+
+            return "detalle-bajas";
+
+
+    }
+
+    @GetMapping("/findAltasById/{id}")
+    public String infoAlta(@PathVariable(value = "id") String id, Map<String, Object> model, RedirectAttributes flash){
+
+        List<AltaInventarioDTO> altaInventarioDTOS = inventarioService.findAltasByProducto(Long.parseLong(id));
+
+        model.put("DTO",altaInventarioDTOS);
+
+        return "detalle-altas";
     }
 
     @PostMapping("/guardar")
@@ -110,12 +137,23 @@ public class ProductosController {
 
 
 
+    @GetMapping("/edit/{id}")
+    public String editarProducto(@PathVariable(value = "id") String id, Map<String, Object> model, RedirectAttributes flash){
+
+        ProductoDTO productoDTO = productoService.findByIdWithImage(Long.parseLong(id));
+
+        model.put("productoDTO",productoDTO);
+
+        return "editar-producto";
+    }
 
     @GetMapping("/find/by-name")
     @ResponseBody
     public List<ProductoDTO> findByName(@RequestParam String nombre) {
         return productoService.findByName(nombre);
     }
+
+
 
     @GetMapping("/delete/{productoId}")
     @ResponseBody
